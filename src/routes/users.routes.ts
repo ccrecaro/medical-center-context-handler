@@ -35,7 +35,7 @@ usersRouter.post('/api/login', async (req: Request, res: Response) => {
   try {
     const user = (await collections.users?.findOne({username: username})) as unknown as User;
     const requestCtxJSON : RequestCtx = requestCtxGenerator(user);
-    const data = (await sendRequestCtxToPDP(requestCtxJSON));
+    const data = (await sendRequestCtxToPDP(requestCtxJSON, user.role));
 
     if (user && await compare(password, user.password)) {
       data.message === "Access granted" ? res.status(200).send(JSON.stringify( {message: "Access granted", role: user.role} )) : res.status(403).json({ message: "Access denied" });
@@ -54,7 +54,7 @@ usersRouter.post('/doctor/login', async (req: Request, res: Response) => {
   try {
     const user = (await collections.users?.findOne({username: username})) as unknown as User;
     const requestCtxJSON : RequestCtx = requestDoctorCtxGenerator(user);
-    const data = (await sendRequestCtxToPDP(requestCtxJSON));
+    const data = (await sendRequestCtxToPDP(requestCtxJSON, 'doctor'));
 
     if (user && await compare(password, user.password)) {
       data.message === "Access granted" ? res.status(200).send(JSON.stringify( {message: "Access granted", role: user.role} )) : res.status(403).json({ message: "Access denied" });
@@ -73,7 +73,7 @@ usersRouter.post('/patient/login', async (req: Request, res: Response) => {
   try {
     const user = (await collections.users?.findOne({username: username})) as unknown as User;
     const requestCtxJSON : RequestCtx = requestPatientCtxGenerator(user);
-    const data = (await sendRequestCtxToPDP(requestCtxJSON));
+    const data = (await sendRequestCtxToPDP(requestCtxJSON, 'patient'));
 
     if (user && await compare(password, user.password)) {
       data.message === "Access granted" ? res.status(200).send(JSON.stringify( {message: "Access granted", role: user.role} )) : res.status(403).json({ message: "Access denied" });

@@ -1,4 +1,5 @@
 export function parsePatientRequestToJSON(roleValue: string, patientId: string, action: string){
+    const patientRecord: string = `file://example/med/record/patient/${patientId}`;
     const dataRequest: any =
     {
         "ReturnPolicyIdList": false,
@@ -22,7 +23,7 @@ export function parsePatientRequestToJSON(roleValue: string, patientId: string, 
                     {
                         "IncludeInResult": false,
                         "AttributeId": "urn:oasis:names:tc:xacml:1.0:resource:resource-id",
-                        "Value": "file://example/med/record/patient/" + patientId,
+                        "Value": patientRecord,
                         "DataType": "http://www.w3.org/2001/XMLSchema#anyURI"
                     }
                 ]

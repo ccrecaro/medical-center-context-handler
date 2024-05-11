@@ -16,5 +16,6 @@ export function requestDoctorCtxGenerator(user: User): RequestCtx {
 }
 
 export function requestPatientCtxGenerator(user: User): RequestCtx {
-    return parsePatientRequestToJSON(user.role, user.username, "view");
+    const reqJSON =  parsePatientRequestToJSON(user.role, user.username, "read");
+    return reqJSON;
 }
